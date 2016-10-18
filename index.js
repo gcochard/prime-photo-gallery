@@ -23,57 +23,42 @@ clip = (!!scpt.getAttribute('data-clip-thumb'))?'&fit=clip':'',
 container = scpt.getAttribute('data-target') || 'links',
 containerId = `#${container}`,
 crossOriginProxy = 'https://crossorigin.me',
-amazonApi = 'https://www.amazon.com/drive/v1/nodes',
+amazonNodeApi = 'https://www.amazon.com/drive/v1/nodes',
 amazonShareApi = 'https://www.amazon.com/drive/v1/shares',
 shareUrl = `${crossOriginProxy}/${amazonShareApi}/${share}?id=${share}&resourceVersion=V2&ContentType=JSON`,
 thumb = `/alt/thumb?viewBox=250${clip}`,
 fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`;
 $(function(){
-  
-  /** data looks like this:
-  {
-    "collectionProperties": {
-      "covers": [
-        {
-          "id": "<photo id -- unused>",
-          "isDefault": true,
-          "tempLink": "<photo URL -- can be adjusted with /alt/thumb?viewBox=<size>&fit=<clip|none>>"
-        },
-        ...
-        {
-          "id": "<photo id>",
-          "isDefault": true,
-          "tempLink": "<photo URL>"
-        }
-      ]
-    },
-    "id": "<album id (data-album)>",
-    "name": "<album name>",
-    "ownerId": "<owner>",
+
+  // add the container if it doesn't already exist on the page
+  if(!$(containerId).length){
+    $('body').append(`<div id="${container}"></div>`);
   }
-  **/
+  const $cont = $(containerId);
 
   $.get(shareUrl, function(shareInfo){
     const album = shareInfo.nodeInfo.id,
-    albumUrl = `${crossOriginProxy}/${amazonApi}/${album}?shareId=${share}&tempLink=true&asset=ALL&resourceVersion=V2&ContentType=JSON`;
-    $.get(albumUrl, function(data){
-      // add the container if it doesn't already exist on the page
-      if(!$(containerId).length){
-        $('body').append(`<div id="${container}"></div>`);
+    childrenUrl = `${crossOriginProxy}/${amazonNodeApi}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&asset=ALL&resourceVersion=V2&ContentType=JSON`;
+    $.get(childrenUrl, function(data){
+      if(!data.count){
+        // bail, no albums found
+        $cont.append('Error, no albums found');
+        return;
       }
-      const $lx = $(containerId);
-      data.collectionProperties.covers.forEach(cover => {
-        const ap = `<a href="${cover.tempLink+fullSize}" data-gallery="#blueimp-gallery"><img src="${cover.tempLink+thumb}"></a>&nbsp;`;
-        $lx.append($(ap));
+      data.data.forEach(node => {
+        node.collectionProperties.covers.forEach(cover => {
+          const ap = `<a href="${cover.tempLink+fullSize}" data-gallery="#blueimp-gallery"><img src="${cover.tempLink+thumb}"></a>&nbsp;`;
+          $cont.append($(ap));
+        });
       });
     
       if(useBlueimp){
-        $(containerId).on('click', event => {
+        $cont.on('click', event => {
           event = event || window.event;
           const target = event.target || event.srcElement,
             link = target.src ? target.parentNode : target,
             options = {index: link, event: event},
-            links = $(containerId).find('a');
+            links = $cont.find('a');
           blueimp.Gallery(links, options);
         });
       }
