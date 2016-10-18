@@ -9,10 +9,10 @@ Usage:
 When it's on your page, you can configure it with the following `data-attributes`:
 
 - Required:
-  - `data-share`: String - The `shareId` shown in the URL to the shared gallery
-  - `data-album`: String - The album ID shown in the path after `https://www.amazon.com/drive/v1/nodes/`
+  - `data-share`: String - The `shareId` shown in the URL e.g. `/share/<share id>`
+  - `data-album`: String - The album ID shown in the URL e.g. `/album/<album id>`
 - Optional:
-  - `data-blueimp: Boolean - Whether to use `blueimp-gallery` to display the full-size images in a lightbox format.
+  - `data-blueimp`: Boolean - Whether to use [`blueimp-gallery`](https://github.com/blueimp/Gallery) to display the full-size images in a lightbox format.
     - You must include `blueimp-gallery` yourself on the page.
   - `data-container`: String - The target container ID for your images. If it does not exist on the page, it will be created.
   - `data-clip-thumb`: Boolean - Whether to clip the thumbnails on the page, or display them resized instead.
