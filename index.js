@@ -18,8 +18,8 @@
 */
 const scpt = document.currentScript,
 share = scpt.getAttribute('data-share'),
-useBlueimp = !!scpt.getAttribute('data-blueimp'),
-clip = (!!scpt.getAttribute('data-clip-thumb'))?'&fit=clip':'',
+useBlueimp = scpt.hasAttribute('data-blueimp'),
+clip = scpt.hasAttribute('data-clip-thumb')?'&fit=clip':'',
 container = scpt.getAttribute('data-target') || 'links',
 containerId = `#${container}`,
 crossOriginProxy = 'https://crossorigin.me',
