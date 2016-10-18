@@ -1,0 +1,33 @@
+{
+  "name": "prime-photo-gallery",
+  "version": "1.0.0",
+  "description": "A javascript utility to allow you to embed a shared prime photo gallery on your own site.",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "uglify -c -o prime-photo-gallery.min.js index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcochard/prime-photo-gallery.git"
+  },
+  "keywords": [
+    "amazon",
+    "prime",
+    "photo",
+    "photos",
+    "gallery"
+  ],
+  "author": "Greg Cochard <github@gregcochard.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcochard/prime-photo-gallery/issues"
+  },
+  "homepage": "https://github.com/gcochard/prime-photo-gallery#readme",
+  "devDependencies": {
+    "uglify-js": "^2.7.3"
+  }
+}
