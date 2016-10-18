@@ -38,7 +38,7 @@ $(function(){
 
   $.get(shareUrl, function(shareInfo){
     const album = shareInfo.nodeInfo.id,
-    childrenUrl = `${crossOriginProxy}/${amazonNodeApi}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&asset=ALL&resourceVersion=V2&ContentType=JSON`;
+    childrenUrl = `${crossOriginProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&asset=ALL&resourceVersion=V2&ContentType=JSON`;
     $.get(childrenUrl, function(data){
       if(!data.count){
         // bail, no albums found
