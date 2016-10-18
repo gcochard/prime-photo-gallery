@@ -4,7 +4,7 @@ An amazon prime photo gallery embed on your site
 Usage:
 
 - Install it with npm `npm install prime-photo-gallery` and bundle it with your distribution *OR*
-- embed it with unpkg.com `https://unpkg.com/prime-photo-gallery@1.0.1/prime-photo-gallery.min.js`.
+- embed it with unpkg.com `https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js`.
 
 When it's on your page, you can configure it with the following `data-attributes`:
 
@@ -44,7 +44,7 @@ Example usage:
     <!-- given a share url formatted as follows: https://www.amazon.com/clouddrive/share/Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL/album/Zl_RlStPSXuIp4i6Urs4Mg?_encoding=UTF8&*Version*=1&*entries*=0&mgh=1 
                                                                                          ^          this is the share ID           ^       ^ this is the album  ^
             data-share is the shareId                                data-album is found in the url path -->
-    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-album="Zl_RlStPSXuIp4i6Urs4Mg" data-blueimp="true" data-container="pics" src="js/prime-photo-gallery.min.js"></script>
+    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-album="Zl_RlStPSXuIp4i6Urs4Mg" data-blueimp="true" data-container="pics" src="https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.21.3/js/blueimp-gallery.min.js"></script>
   </body>
 </html>
