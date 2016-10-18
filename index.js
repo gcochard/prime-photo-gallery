@@ -21,13 +21,13 @@ const scpt = document.currentScript,
 album = scpt.getAttribute('data-album'),
 share = scpt.getAttribute('data-share'),
 useBlueimp = !!scpt.getAttribute('data-blueimp'),
-clip = !!scpt.getAttribute('data-clip-thumb'),
+clip = (!!scpt.getAttribute('data-clip-thumb'))?'&fit=clip':'',
 container = scpt.getAttribute('data-target') || 'links',
 containerId = `#${container}`,
 crossOriginProxy = 'https://crossorigin.me',
 amazonApi = 'https://www.amazon.com/drive/v1/nodes',
 url = `${crossOriginProxy}/${amazonApi}/${album}?shareId=${share}&tempLink=true&asset=ALL&resourceVersion=V2&ContentType=JSON`,
-thumb = '/alt/thumb?viewBox=250&fit=clip',
+thumb = `/alt/thumb?viewBox=250${clip}`,
 fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`;
 $(function(){
   
