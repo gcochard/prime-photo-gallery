@@ -10,7 +10,6 @@ When it's on your page, you can configure it with the following `data-attributes
 
 - Required:
   - `data-share`: String - The `shareId` shown in the URL e.g. `/share/<share id>`
-  - `data-album`: String - The album ID shown in the URL e.g. `/album/<album id>`
 - Optional:
   - `data-blueimp`: Boolean - Whether to use [`blueimp-gallery`](https://github.com/blueimp/Gallery) to display the full-size images in a lightbox format.
     - You must include `blueimp-gallery` yourself on the page.
@@ -42,9 +41,11 @@ Example usage:
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
     <!-- given a share url formatted as follows: https://www.amazon.com/clouddrive/share/Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL/album/Zl_RlStPSXuIp4i6Urs4Mg?_encoding=UTF8&*Version*=1&*entries*=0&mgh=1 
-                                                                                         ^          this is the share ID           ^       ^ this is the album  ^
-            data-share is the shareId                                data-album is found in the url path -->
-    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-album="Zl_RlStPSXuIp4i6Urs4Mg" data-blueimp="true" data-container="pics" src="https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js"></script>
+                                                                                         ^          this is the share ID           ^
+    given a share url formatted as follows: https://www.amazon.com/photos/share/Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL
+                                                                                ^          this is the share ID           ^
+            data-share is the share ID as seen above -->
+    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-blueimp="true" data-container="pics" src="https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.21.3/js/blueimp-gallery.min.js"></script>
   </body>
 </html>
