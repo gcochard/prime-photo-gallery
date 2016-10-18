@@ -22,10 +22,10 @@ useBlueimp = scpt.hasAttribute('data-blueimp'),
 clip = scpt.hasAttribute('data-clip-thumb')?'&fit=clip':'',
 container = scpt.getAttribute('data-target') || 'links',
 containerId = `#${container}`,
-crossOriginProxy = 'https://crossorigin.me',
+corsProxy = scpt.getAttribute('data-cors-proxy') || 'https://crossorigin.me',
 amazonNodeApi = 'https://www.amazon.com/drive/v1/nodes',
 amazonShareApi = 'https://www.amazon.com/drive/v1/shares',
-shareUrl = `${crossOriginProxy}/${amazonShareApi}/${share}?id=${share}&resourceVersion=V2&ContentType=JSON`,
+shareUrl = `${corsProxy}/${amazonShareApi}/${share}?id=${share}&resourceVersion=V2&ContentType=JSON`,
 thumb = `/alt/thumb?viewBox=250${clip}`,
 fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`;
 $(function(){
@@ -38,7 +38,7 @@ $(function(){
 
   $.get(shareUrl, function(shareInfo){
     const album = shareInfo.nodeInfo.id,
-    childrenUrl = `${crossOriginProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&asset=ALL&resourceVersion=V2&ContentType=JSON`;
+    childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&asset=ALL&resourceVersion=V2&ContentType=JSON`;
     $.get(childrenUrl, function(data){
       if(!data.count){
         // bail, no albums found
