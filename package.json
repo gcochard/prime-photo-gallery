@@ -28,6 +28,6 @@
   },
   "homepage": "https://github.com/gcochard/prime-photo-gallery#readme",
   "devDependencies": {
-    "uglify-js": "^2.7.3"
+    "uglify-js": "git://github.com/mishoo/UglifyJS2#harmony"
   }
 }
