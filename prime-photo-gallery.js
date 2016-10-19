@@ -51,7 +51,7 @@ $(function(){
           $cont.append($(ap));
         });
       });
-    
+
       if(useBlueimp){
         $cont.on('click', event => {
           event = event || window.event;
@@ -62,7 +62,7 @@ $(function(){
           blueimp.Gallery(links, options);
         });
       }
-    
+
     });
   });
 });

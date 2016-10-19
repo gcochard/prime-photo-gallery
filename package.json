@@ -2,14 +2,14 @@
   "name": "prime-photo-gallery",
   "version": "1.0.11",
   "description": "A javascript utility to allow you to embed a shared prime photo gallery on your own site.",
-  "main": "index.js",
-  "browser": "prime-photo-gallery.min.js",
+  "main": "prime-photo-gallery.js",
+  "browser": "dist/prime-photo-gallery.min.js",
   "directories": {
     "example": "example"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepublish": "uglifyjs -c -o prime-photo-gallery.min.js index.js"
+    "prepublish": "uglifyjs -c --source-map prime-photo-gallery.min.js.map -o prime-photo-gallery.min.js prime-photo-gallery.js"
   },
   "repository": {
     "type": "git",
