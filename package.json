@@ -1,6 +1,6 @@
 {
   "name": "prime-photo-gallery",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "A javascript utility to allow you to embed a shared prime photo gallery on your own site.",
   "main": "prime-photo-gallery.js",
   "browser": "dist/prime-photo-gallery.min.js",
