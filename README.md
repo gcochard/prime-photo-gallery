@@ -4,7 +4,7 @@ An amazon prime photo gallery embed on your site
 Usage:
 
 - Install it with npm `npm install prime-photo-gallery` and bundle it with your distribution *OR*
-- embed it with unpkg.com `https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js`.
+- embed it with unpkg.com `https://unpkg.com/prime-photo-gallery`.
 
 When it's on your page, you can configure it with the following `data-attributes`:
 
@@ -12,10 +12,12 @@ When it's on your page, you can configure it with the following `data-attributes
   - `data-share`: String - The `shareId` shown in the URL e.g. `/share/<share id>`
 - Optional:
   - `data-blueimp`: Boolean - Whether to use [`blueimp-gallery`](https://github.com/blueimp/Gallery) to display the full-size images in a lightbox format.
-    - You must include `blueimp-gallery` yourself on the page.
-  - `data-container`: String - The target container ID for your images. If it does not exist on the page, it will be created.
+    - Warning: you must include `blueimp-gallery` yourself on the page.
+  - `data-container`: String - The target container ID for your images. If it does not exist on the page, an empty div with this ID will be created.
   - `data-clip-thumb`: Boolean - Whether to clip the thumbnails on the page, or display them resized instead.
-  - `data-cors-proxy`: String - An alternative cors proxy server to crossorigin.me
+  - `data-cors-proxy`: String - An alternative cors proxy server to `https://crossorigin.me`
+  - `data-sort-property`: String - Can be `contentProperties.contentDate` (default) or one of [`createdDate`, `modifiedDate`, `name`]
+  - `data-sort-direction`: String - Can be `ASC` (default) or `DESC`
 
 Warning: This requires jQuery or a jQuery-compatible library such as Zepto.
 It uses the get API, ID selectors, click events, dom insertion, and dom element creation.
@@ -45,7 +47,7 @@ Example usage:
     given a share url formatted as follows: https://www.amazon.com/photos/share/Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL
                                                                                 ^          this is the share ID           ^
             data-share is the share ID as seen above -->
-    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-blueimp="true" data-container="pics" src="https://unpkg.com/prime-photo-gallery/prime-photo-gallery.min.js"></script>
+    <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-blueimp data-container="pics" src="https://unpkg.com/prime-photo-gallery"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-gallery/2.21.3/js/blueimp-gallery.min.js"></script>
   </body>
 </html>

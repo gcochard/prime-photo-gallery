@@ -1,0 +1,14 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6
+    },
+    "env": {
+        "browser": true
+    },
+    "globals": {
+        "$": false,
+        "blueimp": false
+    },
+    "extends": "eslint:recommended"
+}
+
