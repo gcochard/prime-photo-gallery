@@ -13,40 +13,72 @@
  * data-cors-proxy: String - An alternative cors proxy server to crossorigin.me
  * data-sort-property: String - String - Can be `contentProperties.contentDate` (default) or one of [`createdDate`, `modifiedDate`, `name`]
  * data-sort-direction: String - Can be `ASC` (default) or `DESC`
- * Warning: This requires jquery or a jquery-compatible library such as zepto.
- * It uses the get API, ID selectors, click events, dom insertion, and dom element creation.
+ * Warning: This requires fetch or a polyfill.
  *
 */
-const scpt = document.currentScript,
-share = scpt.getAttribute('data-share'),
-useBlueimp = scpt.hasAttribute('data-blueimp'),
-clip = scpt.hasAttribute('data-clip-thumb')?'&fit=clip':'',
-container = scpt.getAttribute('data-target') || 'links',
-containerId = `#${container}`,
-corsProxy = scpt.getAttribute('data-cors-proxy') || 'https://crossorigin.me',
+const d = document,
+a = 'appendChild',
+s = d.currentScript,
+e = 'data-',
+g = s.getAttribute,
+h = s.hasAttribute,
+c = d.createElement,
+sa = 'setAttribute',
+share = g(e+'share'),
+b = e+'blueimp',
+blueimp = h(b)?(g(b)||'#blueimp-gallery'):false,
+clip = h(e+'clip-thumb')?'&fit=clip':'',
+container = g(e+'target') || 'links',
+corsProxy = g(e+'cors-proxy') || 'https://crossorigin.me',
 amazonNodeApi = 'https://www.amazon.com/drive/v1/nodes',
 amazonShareApi = 'https://www.amazon.com/drive/v1/shares',
 shareUrl = `${corsProxy}/${amazonShareApi}/${share}?id=${share}&resourceVersion=V2&ContentType=JSON`,
 thumb = `/alt/thumb?viewBox=250${clip}`,
 fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`,
-sortDirection = scpt.getAttribute('data-sort-direction') || 'ASC',
-sortProperty = scpt.getAttribute('data-sort-property') || 'contentProperties.contentDate',
-sort = `%5B%27${sortProperty}+${sortDirection}%27%5D`;
-$(function(){
+sortDirection = g(e+'sort-direction') || 'ASC',
+sortProperty = g(e+'sort-property') || 'contentProperties.contentDate',
+sort = `%5B%27${sortProperty}+${sortDirection}%27%5D`,
+useFetch = h(e+'use-fetch'),
+g = () => {
 
   // add the container if it doesn't already exist on the page
-  if(!$(containerId).length){
-    $('body').append(`<div id="${container}"></div>`);
+  var containerDiv = d.getElementById(container);
+  if(!containerDiv){
+    containerDiv = c('div');
+    containerDiv.id = container;
+    d.body[a](containerDiv);
   }
-  const $cont = $(containerId);
+  const cont = containerDiv;
 
-  if(useBlueimp){
-    $cont.on('click', event => {
+  if(useFetch && fetch){
+    var oldget = $.get;
+    $.get = function(url, cb, tries){
+      tries = tries || 0;
+      fetch(url).then(response => {
+        if(response.ok){
+          return response.json();
+        } else {
+          // stop retrying after 10 tries
+          if(tries > 10){
+            return cb({data:[]});
+          }
+          return setTimeout(function(){
+            $.get(url, cb, tries+1);
+          }, 1000);
+        }
+      }).then(data => {
+        return cb(data);
+      });
+    };
+  }
+
+  if(blueimp){
+    cont.addEventListener('click', event => {
       event = event || window.event;
       const target = event.target || event.srcElement,
         link = target.src ? target.parentNode : target,
         options = {index: link, event: event},
-        links = $cont.find('a');
+        links = cont.querySelectorAll('a');
       blueimp.Gallery(links, options);
     });
   }
@@ -57,8 +89,13 @@ $(function(){
     $.get(childrenUrl, function(data){
       data.data.forEach(node => {
         if(node.tempLink){
-          const ap = `<a href="${node.tempLink+fullSize}" data-gallery="#blueimp-gallery"><img src="${node.tempLink+thumb}"></a>&nbsp;`;
-          $cont.append($(ap));
+          const apNode = c('a');
+          apNode[sa]('href',node.tempLink+fullSize);
+          apNode[sa](e+'gallery',blueimp);
+          const imgNode = c('img');
+          imgNode[sa]('src',node.tempLink+thumb);
+          apNode[a](imgNode);
+          cont[a](apNode);
         } else if(node.collectionProperties) {
           walkDescendants(node);
         }
@@ -67,18 +104,9 @@ $(function(){
   }
 
   $.get(shareUrl, function(shareInfo){
-    const album = shareInfo.nodeInfo.id,
-    childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
-    $.get(childrenUrl, function(data){
-      if(!data.count){
-        // bail, no albums found
-        $cont.append('Error, no albums found');
-        return;
-      }
-      data.data.forEach(node => {
-        walkDescendants(node);
-      });
-
-    });
+    walkDescendants(shareInfo.nodeInfo);
   });
-});
+};
+d.onreadystatechange = j => {
+  if(d.readyState=='complete'){g();}
+}

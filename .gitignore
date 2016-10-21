@@ -37,4 +37,5 @@ jspm_packages
 .node_repl_history
 
 prime-photo-gallery.min.js
+prime-photo-gallery.min.js.gz
 prime-photo-gallery.min.js.map

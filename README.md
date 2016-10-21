@@ -11,7 +11,7 @@ When it's on your page, you can configure it with the following `data-attributes
 - Required:
   - `data-share`: String - The `shareId` shown in the URL e.g. `/share/<share id>`
 - Optional:
-  - `data-blueimp`: Boolean - Whether to use [`blueimp-gallery`](https://github.com/blueimp/Gallery) to display the full-size images in a lightbox format.
+  - `data-blueimp`: Boolean - Whether to use [`blueimp-gallery`](https://github.com/blueimp/Gallery) to display the full-size images in a lightbox format. If set, use the value passed as the ID of the blueimp container.
     - Warning: you must include `blueimp-gallery` yourself on the page.
   - `data-container`: String - The target container ID for your images. If it does not exist on the page, an empty div with this ID will be created.
   - `data-clip-thumb`: Boolean - Whether to clip the thumbnails on the page, or display them resized instead.
