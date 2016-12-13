@@ -1,3 +1,4 @@
+(function (){
 'use strict';
 // albumUrl embedded like <script data-share="Y7cccQOkL9Xpq6BhXiz5xyuuvxDIjVGB693FB5RUDoL" data-blueimp="truthy -- optional" data-container="target container id" data-clip-thumb="truthy -- optional" data-cors-proxy="<cors proxy url -- defaults to crossorigin.me>" src="this-script.js"></script>
 /** configuration
@@ -81,4 +82,4 @@ $(function(){
 
     });
   });
-});
+});}());
