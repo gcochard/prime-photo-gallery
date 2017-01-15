@@ -71,7 +71,9 @@
         // retry the main fetch if it fails
         (function retry(count){
             // todo: show a spinner
-            $.get(shareUrl, {
+            $.ajax({
+                type: 'GET',
+                url: shareUrl,
                 success: function(shareInfo){
                     const album = shareInfo.nodeInfo.id,
                     childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
