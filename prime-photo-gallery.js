@@ -32,7 +32,8 @@
     fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`,
     sortDirection = scpt.getAttribute('data-sort-direction') || 'ASC',
     sortProperty = scpt.getAttribute('data-sort-property') || 'contentProperties.contentDate',
-    sort = `%5B%27${sortProperty}+${sortDirection}%27%5D`;
+    sort = `%5B%27${sortProperty}+${sortDirection}%27%5D`,
+    maxRetries = scpt.getAttribute('data-max-retries') || 3;
     $(function(){
 
         // add the container if it doesn't already exist on the page
@@ -46,7 +47,7 @@
                 event = event || window.event;
                 const target = event.target || event.srcElement,
                 link = target.src ? target.parentNode : target,
-                options = {index: link, event: event},
+                options = {index: link, event: event, hidePageScrollbars: false /* buggy option */},
                 links = $cont.find('a');
                 blueimp.Gallery(links, options);
             });
@@ -67,20 +68,34 @@
             });
         }
 
-        $.get(shareUrl, function(shareInfo){
-            const album = shareInfo.nodeInfo.id,
-            childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
-            $.get(childrenUrl, function(data){
-                if(!data.count){
-                    // bail, no albums found
-                    $cont.append('Error, no albums found');
-                    return;
-                }
-                data.data.forEach(node => {
-                    walkDescendants(node);
-                });
+        // retry the main fetch if it fails
+        (function retry(count){
+            // todo: show a spinner
+            $.get(shareUrl, {
+                success: function(shareInfo){
+                    const album = shareInfo.nodeInfo.id,
+                    childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
+                    $.get(childrenUrl, function(data){
+                        if(!data.count){
+                            // bail, no albums found
+                            $cont.append('Error, no albums found');
+                            return;
+                        }
+                        data.data.forEach(node => {
+                            walkDescendants(node);
+                        });
 
+                    });
+                },
+                fail: function(){
+                    if(count <= maxRetries){
+                        // exponential backoff ${maxRetries} times
+                        return setTimeout(retry.bind(null, count+1), 1000*1<<count);
+                    } else {
+                        console.error('Could not fetch gallery');
+                    }
+                }
             });
-        });
+        }(0));
     });
 }());
