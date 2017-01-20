@@ -29,7 +29,7 @@
     amazonShareApi = 'https://www.amazon.com/drive/v1/shares',
     shareUrl = `${corsProxy}/${amazonShareApi}/${share}?id=${share}&resourceVersion=V2&ContentType=JSON`,
     thumb = `/alt/thumb?viewBox=250${clip}`,
-    fullSize = `/alt/thumb?viewBox=${Math.min(window.screen.width, window.screen.height)}`,
+    fullSize = `/alt/thumb?viewBox=${Math.max(window.screen.width, window.screen.height) * (devicePixelRatio||1)}`,
     sortDirection = scpt.getAttribute('data-sort-direction') || 'ASC',
     sortProperty = scpt.getAttribute('data-sort-property') || 'contentProperties.contentDate',
     sort = `%5B%27${sortProperty}+${sortDirection}%27%5D`,
