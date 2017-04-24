@@ -15,7 +15,7 @@ When it's on your page, you can configure it with the following `data-attributes
     - Warning: you must include `blueimp-gallery` yourself on the page.
   - `data-container`: String - The target container ID for your images. If it does not exist on the page, an empty div with this ID will be created.
   - `data-clip-thumb`: Boolean - Whether to clip the thumbnails on the page, or display them resized instead.
-  - `data-cors-proxy`: String - An alternative cors proxy server to `https://crossorigin.me`
+  - `data-cors-proxy`: String - An alternative cors proxy server to `https://crossorigin.me/` (This must be the entire proxy path, so please include any query parameters if necessary, the photo gallery API will be appended directly to this string unmodified)
   - `data-sort-property`: String - Can be `contentProperties.contentDate` (default) or one of [`createdDate`, `modifiedDate`, `name`]
   - `data-sort-direction`: String - Can be `ASC` (default) or `DESC`
 
