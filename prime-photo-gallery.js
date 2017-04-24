@@ -55,7 +55,7 @@
 
         function walkDescendants(node){
             const object = node.id,
-            childrenUrl = `${corsProxy}/${amazonNodeApi}/${object}/children?asset=ALL&tempLink=true&sort=${sort}&shareId=${share}&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
+            childrenUrl = `${corsProxy}${amazonNodeApi}/${object}/children?asset=ALL&tempLink=true&sort=${sort}&shareId=${share}&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
             $.get(childrenUrl, function(data){
                 data.data.forEach(node => {
                     if(node.tempLink){
@@ -76,7 +76,7 @@
                 url: shareUrl,
                 success: function(shareInfo){
                     const album = shareInfo.nodeInfo.id,
-                    childrenUrl = `${corsProxy}/${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
+                    childrenUrl = `${corsProxy}${amazonNodeApi}/${album}/children?asset=ALL&shareId=${share}&tempLink=true&limit=1&searchOnFamily=true&offset=0&resourceVersion=V2&ContentType=JSON`;
                     $.get(childrenUrl, function(data){
                         if(!data.count){
                             // bail, no albums found
